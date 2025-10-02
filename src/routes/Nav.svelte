@@ -9,15 +9,14 @@
 					>Login</a
 				>
 			</li>
-			<li>
-				<a
-					class="rounded-full bg-gray-800 px-4 py-2 text-white transition-colors duration-200 hover:bg-gray-700"
-					href="/signup">Sign up</a
-				>
-			</li>
 		</ul>
 	</nav>
 </header>
 
 <style>
+	.nav {
+		a:has(h1) {
+			text-decoration: none;
+		}
+	}
 </style>

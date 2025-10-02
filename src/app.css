@@ -9,3 +9,40 @@
     --color-accent-orange: #F5A623;
     --color-accent-purple: #9B59B6
 }
+
+html {
+    height: 100%;
+}
+
+body {
+    height: 100%;
+}
+
+main {
+    height: 87%;
+    overflow-y: auto;
+}
+
+a {
+    text-decoration: underline;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    row-gap: 5px;
+}
+
+.form-group label {
+    font-weight: bold;
+}
+
+.form-group input {
+    background-color: white;
+    border-radius: 5px;
+    border-color: var(--color-gray-600);
+}
+
+.form-group:has(input:required) label::after {
+    content: '*';
+}
