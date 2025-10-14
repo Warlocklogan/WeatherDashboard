@@ -58,11 +58,20 @@
     
     let icon = $state(clearDay);
     switch (weather) {
+        case "thunderstorms":
+            icon = thunderstorms;
+            break;
+        case "severeThunderstorm":
+            icon = severeThunderstorm;
+            break;
         case "cloudy":
             icon = cloudy;
             break;
         case "fog":
             icon = fog;
+            break;
+        case "haze":
+            icon = haze;
             break;
         case "rainy":
             icon = rainy1;
@@ -72,6 +81,12 @@
             break;
         case "wind":
             icon = wind;
+            break;
+        case "dust":
+            icon = dust;
+            break;
+        case "tornado":
+            icon = tornado;
             break;
         default:
             icon = clearDay;
