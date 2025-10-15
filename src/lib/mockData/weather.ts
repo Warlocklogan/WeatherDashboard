@@ -1,30 +1,77 @@
-const currentWeather = {
-	coord: { lon: -1.15, lat: 46.1667 },
-	weather: [{ id: 804, main: 'Clouds', description: 'overcast clouds', icon: '04d' }],
-	base: 'stations',
-	main: {
-		temp: 12.85,
-		feels_like: 11.85,
-		temp_min: 10.85,
-		temp_max: 12.85,
-		pressure: 1021,
-		humidity: 82,
-		sea_level: 1021,
-		grnd_level: 1021
+const currentWeathers = [
+	{
+		coord: { lon: -1.15, lat: 46.1667 },
+		weather: [{ id: 804, main: 'Clouds', description: 'overcast clouds', icon: '04d' }],
+		base: 'stations',
+		main: {
+			temp: 286,
+			feels_like: 285,
+			temp_min: 284,
+			temp_max: 286,
+			pressure: 1021,
+			humidity: 82,
+			sea_level: 1021,
+			grnd_level: 1021
+		},
+		visibility: 10000,
+		wind: { speed: 8.23, deg: 70 },
+		clouds: { all: 100 },
+		dt: 1760431367,
+		sys: { type: 1, id: 6458, country: 'FR', sunrise: 1760422805, sunset: 1760462444 },
+		timezone: 7200,
+		id: 3006787,
+		name: 'La Rochelle',
+		cod: 200,
+		rain: { '1h': 1.2 }
 	},
-	visibility: 10000,
-	wind: { speed: 8.23, deg: 70 },
-	clouds: { all: 100 },
-	dt: 1760431367,
-	sys: { type: 1, id: 6458, country: 'FR', sunrise: 1760422805, sunset: 1760462444 },
-	timezone: 7200,
-	id: 3006787,
-	name: 'La Rochelle',
-	cod: 200,
-	rain: { '1h': 1.2 }
-};
+	{
+		coord: {
+			lon: -1.1352,
+			lat: 46.185
+		},
+		weather: [
+			{
+				id: 800,
+				main: 'Clear',
+				description: 'clear sky',
+				icon: '01d'
+			}
+		],
+		base: 'stations',
+		main: {
+			temp: 283.67,
+			feels_like: 283.18,
+			temp_min: 283.18,
+			temp_max: 284.96,
+			pressure: 1022,
+			humidity: 92,
+			sea_level: 1022,
+			grnd_level: 1022
+		},
+		visibility: 8000,
+		wind: {
+			speed: 3.6,
+			deg: 20
+		},
+		clouds: {
+			all: 3
+		},
+		dt: 1760516539,
+		sys: {
+			type: 1,
+			id: 6458,
+			country: 'FR',
+			sunrise: 1760509285,
+			sunset: 1760548731
+		},
+		timezone: 7200,
+		id: 3009052,
+		name: 'Lagord',
+		cod: 200
+	}
+];
 
-function getWeatherState(weatherCode: number) {
+export function getWeatherState(weatherCode: number) {
 	if (weatherCode === 221) {
 		return 'severeThunderstorm';
 	}
@@ -66,7 +113,8 @@ function getWeatherState(weatherCode: number) {
 export async function getCurrentWeather() {
 	return new Promise((resolve) => {
 		setTimeout(() => {
-			const current = structuredClone(currentWeather);
+			let current = currentWeathers[Math.round(Math.random() * (currentWeathers.length - 1))];
+			current = structuredClone(current);
 			const currentState = getWeatherState(current.weather[0].id);
 			current.weather[0]['state'] = currentState;
 			resolve(current);
