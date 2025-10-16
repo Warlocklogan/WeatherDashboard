@@ -1,4 +1,6 @@
-const currentWeathers = [
+import type { WeatherRecord } from '$lib/types/Weather';
+
+const currentWeathers: Array<WeatherRecord> = [
 	{
 		coord: { lon: -1.15, lat: 46.1667 },
 		weather: [{ id: 804, main: 'Clouds', description: 'overcast clouds', icon: '04d' }],
@@ -71,7 +73,7 @@ const currentWeathers = [
 	}
 ];
 
-export function getWeatherState(weatherCode: number) {
+export function getWeatherState(weatherCode: number): string {
 	if (weatherCode === 221) {
 		return 'severeThunderstorm';
 	}
@@ -108,9 +110,10 @@ export function getWeatherState(weatherCode: number) {
 	if (weatherCode >= 801 && weatherCode < 900) {
 		return 'cloudy';
 	}
+	return 'clear';
 }
 
-export async function getCurrentWeather() {
+export async function getCurrentWeather(): Promise<WeatherRecord> {
 	return new Promise((resolve) => {
 		setTimeout(() => {
 			let current = currentWeathers[Math.round(Math.random() * (currentWeathers.length - 1))];

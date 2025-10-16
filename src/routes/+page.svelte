@@ -4,18 +4,19 @@
 	import { getCurrentWeather } from '$lib/mockData/weather';
 	import ForecastTile from '$lib/components/forecast-tile.svelte';
 	import { kelvinToHumanCelsius } from '$lib/weather-tools';
-	import { getWeatherForecast, type WeatherRecord } from '$lib/mockData/forecast';
+	import { getWeatherForecast } from '$lib/mockData/forecast';
+	import { type WeatherRecord } from '$lib/types/Weather';
 
 	const currentWeatherPromise = getCurrentWeather();
 	const weatherForecast = getWeatherForecast();
 </script>
 
-<div class="grid h-full grid-cols-6 grid-rows-6">
+<div class="grid h-full grid-cols-6 grid-rows-6 gap-3">
 	{#await currentWeatherPromise}
 		Loading Current Weather...
 	{:then currentWeather: WeatherRecord}
-		<div
-			class="col-start-1 col-end-4 row-start-1 row-end-7 m-5 flex rounded-3xl border border-blue-100 bg-gradient-to-b from-blue-300 to-white"
+		<section
+			class="col-start-1 col-end-4 row-start-1 row-end-7 flex rounded-3xl border border-blue-100 bg-gradient-to-b from-blue-300 to-white"
 		>
 			<div class="grid flex-1 grid-cols-2 grid-rows-2">
 				<p class="flex flex-col items-center justify-center">
@@ -78,14 +79,16 @@
 					{/if}
 				</div>
 			</div>
-		</div>
+		</section>
 	{/await}
-	<section class="col-start-4 col-end-7 row-start-1 row-end-5 bg-amber-500">
-		<h2>5-Day Forecast</h2>
-		<ul>
+	<section
+		class="border-gray-10 col-start-4 col-end-7 row-start-1 row-end-5 flex flex-col rounded-3xl border border-gray-100 p-5 shadow"
+	>
+		<h2 class="text-2xl font-bold">5-Day Forecast</h2>
+		<ul class="weather-forecast-list flex h-full flex-col gap-3 overflow-auto">
 			{#await weatherForecast then forecasts}
 				{#each forecasts as forecast}
-					<ForecastTile></ForecastTile>
+					<ForecastTile {forecast}></ForecastTile>
 				{/each}
 			{/await}
 		</ul>
@@ -101,5 +104,10 @@
 		p {
 			margin-bottom: 0;
 		}
+	}
+
+	.weather-forecast-list {
+		scrollbar-width: thin;
+		scrollbar-color: var(--color-gray-400) var(--color-gray-200);
 	}
 </style>

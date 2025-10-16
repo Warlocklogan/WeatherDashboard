@@ -96,7 +96,12 @@
 
 <style>
 	.weather-icon {
+		max-inline-size: 100%;
+		block-size: auto;
+		aspect-ratio: 2/1;
+		object-fit: contain;
+		height: 100%;
 		width: 100%;
-		padding: 1.5rem;
+		object-position: center center;
 	}
 </style>

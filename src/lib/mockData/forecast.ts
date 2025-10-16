@@ -1,4 +1,5 @@
 import { getWeatherState } from './weather';
+import type { WeatherRecord, Main, WeatherForecast } from '../types/Weather';
 
 const forecasts = [
 	{
@@ -1475,26 +1476,8 @@ const forecasts = [
 	}
 ];
 
-export interface WeatherRecord {
-	main: MainData;
-	weather: Array<unknown>;
-	// ... potentially other properties like 'dt', 'weather', 'clouds', etc.
-}
-
-interface MainData {
-	temp: number;
-	feels_like: number;
-	temp_min: number;
-	temp_max: number;
-	pressure: number;
-	sea_level: number;
-	grnd_level: number;
-	humidity: number;
-	temp_kf: number;
-}
-
 function dailyAverage(fcsts: Array<WeatherRecord>) {
-	const initialSum: MainData = {
+	const initialSum: Main = {
 		temp: 0,
 		feels_like: 0,
 		temp_min: 0,
@@ -1512,9 +1495,10 @@ function dailyAverage(fcsts: Array<WeatherRecord>) {
 
 	const totalSums = fcsts.reduce((accumulator, currentRecord) => {
 		// Iterate over the keys of the 'main' object
-		(Object.keys(accumulator) as Array<keyof MainData>).forEach((key) => {
+		(Object.keys(accumulator) as Array<keyof Main>).forEach((key) => {
+			if (typeof accumulator[key] !== 'number') return;
 			// Add the current record's value to the accumulated sum
-			accumulator[key] += currentRecord.main[key];
+			accumulator[key] += currentRecord?.main[key];
 		});
 		return accumulator;
 	}, initialSum);
@@ -1523,32 +1507,48 @@ function dailyAverage(fcsts: Array<WeatherRecord>) {
 		Object.entries(totalSums).map(([key, value]) => [key, value / fcsts.length])
 	);
 
-	return averages as unknown as MainData;
+	const states = fcsts.map((fcst) => fcst.weather[0].id);
+	const dailyState = Array.from(new Set(states)).reduce((prev, curr) =>
+		states.filter((state) => state === curr).length >
+		states.filter((state) => state === prev).length
+			? curr
+			: prev
+	);
+
+	return {
+		...averages,
+		state: getWeatherState(dailyState)
+	} as unknown as Main;
 }
 
-export async function getWeatherForecast() {
+export async function getWeatherForecast(): Promise<Array<WeatherForecast>> {
 	return new Promise((resolve) => {
 		setTimeout(() => {
 			let weather = forecasts[Math.round(Math.random() * (forecasts.length - 1))];
 			weather = structuredClone(weather);
 
-			const group = Object.groupBy(weather.list, ({ dt }) => {
-				const forecastDt = new Date(dt * 1000);
+			const group = Object.groupBy(weather.list, (forecast) => {
+				const forecastDt = new Date(forecast.dt * 1000);
 				forecastDt.setHours(0);
-				return forecastDt;
+				return forecastDt.toISOString();
 			});
 
 			const result = [];
 			for (const groudDt in group) {
 				const forecasts = group[groudDt];
-				const parsed = forecasts.map((forecast) => {
-					return { ...forecast, dt: new Date(forecast.dt * 1000) };
+				if (!forecasts) continue;
+				const parsed: Array<WeatherRecord> = forecasts.map((forecast) => {
+					return {
+						...forecast,
+						dt: new Date(forecast.dt * 1000),
+						weather: [{ ...forecast.weather[0], state: getWeatherState(forecast.weather[0].id) }]
+					} as unknown as WeatherRecord;
 				});
 				result.push({
 					dt: groudDt,
 					forecast: parsed,
 					daily: dailyAverage(parsed)
-				});
+				} as unknown as WeatherForecast);
 			}
 			console.log(result);
 			resolve(result);
