@@ -28,6 +28,7 @@ export interface WeatherForecast {
 	dt: Date;
 	forecast: Array<WeatherRecord>;
 	daily: Main;
+	id: string;
 }
 
 interface Coord {

@@ -1476,6 +1476,40 @@ const forecasts = [
 	}
 ];
 
+let dailyForecasts: Array<WeatherForecast> = [];
+
+function computeDailyForecasts() {
+	let weather = forecasts[Math.round(Math.random() * (forecasts.length - 1))];
+	weather = structuredClone(weather);
+
+	const group = Object.groupBy(weather.list, (forecast) => {
+		const forecastDt = new Date(forecast.dt * 1000);
+		forecastDt.setHours(0);
+		return forecastDt.toISOString();
+	});
+
+	const result = [];
+	for (const groudDt in group) {
+		const forecasts = group[groudDt];
+		if (!forecasts) continue;
+		const parsed: Array<WeatherRecord> = forecasts.map((forecast) => {
+			return {
+				...forecast,
+				dt: new Date(forecast.dt * 1000),
+				weather: [{ ...forecast.weather[0], state: getWeatherState(forecast.weather[0].id) }]
+			} as unknown as WeatherRecord;
+		});
+		result.push({
+			dt: groudDt,
+			forecast: parsed,
+			daily: dailyAverage(parsed),
+			id: crypto.randomUUID() // To change later
+		} as unknown as WeatherForecast);
+	}
+	dailyForecasts = result;
+}
+computeDailyForecasts();
+
 function dailyAverage(fcsts: Array<WeatherRecord>) {
 	const initialSum: Main = {
 		temp: 0,
@@ -1524,34 +1558,16 @@ function dailyAverage(fcsts: Array<WeatherRecord>) {
 export async function getWeatherForecast(): Promise<Array<WeatherForecast>> {
 	return new Promise((resolve) => {
 		setTimeout(() => {
-			let weather = forecasts[Math.round(Math.random() * (forecasts.length - 1))];
-			weather = structuredClone(weather);
+			resolve(dailyForecasts);
+		}, Math.random() * 500);
+	});
+}
 
-			const group = Object.groupBy(weather.list, (forecast) => {
-				const forecastDt = new Date(forecast.dt * 1000);
-				forecastDt.setHours(0);
-				return forecastDt.toISOString();
-			});
-
-			const result = [];
-			for (const groudDt in group) {
-				const forecasts = group[groudDt];
-				if (!forecasts) continue;
-				const parsed: Array<WeatherRecord> = forecasts.map((forecast) => {
-					return {
-						...forecast,
-						dt: new Date(forecast.dt * 1000),
-						weather: [{ ...forecast.weather[0], state: getWeatherState(forecast.weather[0].id) }]
-					} as unknown as WeatherRecord;
-				});
-				result.push({
-					dt: groudDt,
-					forecast: parsed,
-					daily: dailyAverage(parsed)
-				} as unknown as WeatherForecast);
-			}
-			console.log(result);
-			resolve(result);
+export function getWeatherForecastById(id: string): Promise<WeatherForecast | undefined> {
+	return new Promise((resolve) => {
+		const dailyForecast = dailyForecasts.find((dailyForecast) => dailyForecast.id === id);
+		setTimeout(() => {
+			resolve(dailyForecast);
 		}, Math.random() * 500);
 	});
 }

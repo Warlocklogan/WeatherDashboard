@@ -16,7 +16,7 @@
 		Loading Current Weather...
 	{:then currentWeather: WeatherRecord}
 		<section
-			class="col-start-1 col-end-4 row-start-1 row-end-7 flex rounded-3xl border border-blue-100 bg-gradient-to-b from-blue-300 to-white"
+			class="col-start-1 col-end-5 row-start-1 row-end-7 flex rounded-3xl border border-blue-100 bg-gradient-to-b from-blue-300 to-white"
 		>
 			<div class="grid flex-1 grid-cols-2 grid-rows-2">
 				<p class="flex flex-col items-center justify-center">
@@ -82,7 +82,7 @@
 		</section>
 	{/await}
 	<section
-		class="border-gray-10 col-start-4 col-end-7 row-start-1 row-end-5 flex flex-col rounded-3xl border border-gray-100 p-5 shadow"
+		class="border-gray-10 col-start-5 col-end-7 row-start-1 row-end-5 flex flex-col rounded-3xl border border-gray-100 p-5 shadow"
 	>
 		<h2 class="text-2xl font-bold">5-Day Forecast</h2>
 		<ul class="weather-forecast-list flex h-full flex-col gap-3 overflow-auto">
@@ -93,7 +93,7 @@
 			{/await}
 		</ul>
 	</section>
-	<div class="col-start-4 col-end-7 row-start-5 row-end-7 bg-green-500">Air Quality</div>
+	<div class="col-start-5 col-end-7 row-start-5 row-end-7 bg-green-500">Air Quality</div>
 </div>
 
 <style>
