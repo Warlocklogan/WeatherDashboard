@@ -12,7 +12,7 @@
 </script>
 
 <li class="forecast-tile max-h-44 min-h-40 rounded-2xl border border-gray-200 shadow">
-	<a href="/forecast/{forecast.id}" class="grid h-full grid-cols-2 grid-rows-1">
+	<a href="/forecast/{forecast.id}" class="grid h-full grid-cols-2 grid-rows-1 p-3">
 		<div>
 			<WeatherIcon weather={forecast.daily.state}></WeatherIcon>
 		</div>
@@ -29,6 +29,8 @@
 
 <style>
 	.forecast-tile {
-		border: 1px solid --var(--color-gray-400);
+		a {
+			text-decoration: none;
+		}
 	}
 </style>

@@ -14,17 +14,21 @@
 
 
 html {
-    height: 100%;
+    height: 100vh;
 }
 
 body {
     height: 100%;
     font-family: "Inter", sans-serif;
+    display: flex;
+    flex-direction: column;
 }
 
 main {
-    height: 87%;
+    flex: 1;
+    margin-bottom: 56px;
     overflow-y: auto;
+    padding: 5px;
 }
 
 a {

@@ -6,9 +6,13 @@
 	import { kelvinToHumanCelsius } from '$lib/weather-tools';
 	import { getWeatherForecast } from '$lib/mockData/forecast';
 	import { type WeatherRecord } from '$lib/types/Weather';
+	import HourlyForecastTile from '$lib/components/hourly-forecast-tile.svelte';
+	import { getCurrentAirQuality } from '$lib/mockData/airQuality';
+	import AirQuality from '$lib/components/air-quality.svelte';
 
 	const currentWeatherPromise = getCurrentWeather();
 	const weatherForecast = getWeatherForecast();
+	const airQuality = getCurrentAirQuality();
 </script>
 
 <div class="grid h-full grid-cols-6 grid-rows-6 gap-3">
@@ -81,6 +85,15 @@
 			</div>
 		</section>
 	{/await}
+	<section class="col-span-6 col-start-1">
+		{#await weatherForecast then forecasts}
+			<ul class="grid grid-cols-8 gap-x-3">
+				{#each forecasts[0].forecast as forecast}
+					<HourlyForecastTile {forecast}></HourlyForecastTile>
+				{/each}
+			</ul>
+		{/await}
+	</section>
 	<section
 		class="border-gray-10 col-start-5 col-end-7 row-start-1 row-end-5 flex flex-col rounded-3xl border border-gray-100 p-5 shadow"
 	>
@@ -93,7 +106,11 @@
 			{/await}
 		</ul>
 	</section>
-	<div class="col-start-5 col-end-7 row-start-5 row-end-7 bg-green-500">Air Quality</div>
+	<div class="col-start-5 col-end-7 row-span-2 row-start-5 bg-green-500">
+		{#await airQuality then quality}
+			<AirQuality airQuality={quality}></AirQuality>
+		{/await}
+	</div>
 </div>
 
 <style>
