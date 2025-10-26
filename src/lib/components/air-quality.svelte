@@ -2,20 +2,66 @@
 	import type { AirQualityList } from '../types/Weather';
 
 	const { airQuality }: { airQuality: AirQualityList } = $props();
+
+	const segmentLength = 70.5;
 </script>
 
-<svg width="250" height="150" viewBox="0 0 200 100" xmlns="http://www.w3.org/2000/svg">
-	<g transform="translate(0, 100) rotate(-90)">
-		<path
-			d="M 10 10 A 90 90 0 0 1 100 10"
-			fill="none"
-			stroke="#00CCFF"
-			stroke-width="20"
-			stroke-dasharray="31.42 125.66"
-		/>
-	</g>
+<svg height="250" width="250" viewBox="0 0 250 250">
+	<path
+		d="
+      M 12.5 125
+      A 100 100 0 0 1 237.5 125"
+		fill="none"
+		stroke="#00CCFF"
+		stroke-width="15"
+		stroke-dasharray="{segmentLength} 400"
+	/>
 
-	<g transform="translate(100, 100) rotate(-90)">
+	<path
+		d="
+      M 12.5 125
+      A 100 100 0 0 1 237.5 125"
+		fill="none"
+		stroke="#00FF00"
+		stroke-width="15"
+		stroke-dasharray="{segmentLength} 400"
+		stroke-dashoffset={-segmentLength}
+	/>
+
+	<path
+		d="
+      M 12.5 125
+      A 100 100 0 0 1 237.5 125"
+		fill="none"
+		stroke="#FFFF00"
+		stroke-width="15"
+		stroke-dasharray="{segmentLength} 400"
+		stroke-dashoffset={-segmentLength * 2}
+	/>
+
+	<path
+		d="
+      M 12.5 125
+      A 100 100 0 0 1 237.5 125"
+		fill="none"
+		stroke="#FF6600"
+		stroke-width="15"
+		stroke-dasharray="{segmentLength} 400"
+		stroke-dashoffset={-segmentLength * 3}
+	/>
+
+	<path
+		d="
+      M 12.5 125
+      A 100 100 0 0 1 237.5 125"
+		fill="none"
+		stroke="#FF0000"
+		stroke-width="15"
+		stroke-dasharray="{segmentLength} 400"
+		stroke-dashoffset={-segmentLength * 4}
+	/>
+
+	<g transform="translate(125, 125) rotate(-90)">
 		<line
 			x1="0"
 			y1="0"
@@ -24,12 +70,12 @@
 			stroke="#000000"
 			stroke-width="3"
 			id="aqi-pointer"
-			transform="rotate(DYNAMIC_ANGLE)"
+			transform="rotate(160)"
 		/>
 		<circle cx="0" cy="0" r="5" fill="#000000" />
 	</g>
 
-	<text x="100" y="80" text-anchor="middle" font-size="14" fill="#000000" font-weight="bold">
-		Medium {airQuality.main.aqi}
+	<text x="125" y="100" text-anchor="middle" font-size="16" fill="#000000" font-weight="bold">
+		Medium
 	</text>
 </svg>
