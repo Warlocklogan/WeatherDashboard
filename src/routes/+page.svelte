@@ -106,7 +106,9 @@
 			{/await}
 		</ul>
 	</section>
-	<div class="col-start-5 col-end-7 row-span-2 row-start-5 bg-green-500">
+	<div
+		class="col-start-5 col-end-7 row-span-2 row-start-5 rounded-3xl border border-gray-100 p-5 shadow"
+	>
 		{#await airQuality then quality}
 			<AirQuality airQuality={quality}></AirQuality>
 		{/await}

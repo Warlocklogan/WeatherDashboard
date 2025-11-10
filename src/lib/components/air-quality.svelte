@@ -7,61 +7,67 @@
 </script>
 
 <svg height="250" width="250" viewBox="0 0 250 250">
-	<path
-		d="
+	{#if airQuality.main.aqi >= 1}
+		<path
+			d="
       M 12.5 125
       A 100 100 0 0 1 237.5 125"
-		fill="none"
-		stroke="#00CCFF"
-		stroke-width="15"
-		stroke-dasharray="{segmentLength} 400"
-	/>
-
-	<path
-		d="
+			fill="none"
+			stroke="#00CCFF"
+			stroke-width="15"
+			stroke-dasharray="{segmentLength} 400"
+		/>
+	{/if}
+	{#if airQuality.main.aqi >= 2}
+		<path
+			d="
       M 12.5 125
       A 100 100 0 0 1 237.5 125"
-		fill="none"
-		stroke="#00FF00"
-		stroke-width="15"
-		stroke-dasharray="{segmentLength} 400"
-		stroke-dashoffset={-segmentLength}
-	/>
-
-	<path
-		d="
+			fill="none"
+			stroke="#00FF00"
+			stroke-width="15"
+			stroke-dasharray="{segmentLength} 400"
+			stroke-dashoffset={-segmentLength}
+		/>
+	{/if}
+	{#if airQuality.main.aqi >= 3}
+		<path
+			d="
       M 12.5 125
       A 100 100 0 0 1 237.5 125"
-		fill="none"
-		stroke="#FFFF00"
-		stroke-width="15"
-		stroke-dasharray="{segmentLength} 400"
-		stroke-dashoffset={-segmentLength * 2}
-	/>
-
-	<path
-		d="
+			fill="none"
+			stroke="#FFFF00"
+			stroke-width="15"
+			stroke-dasharray="{segmentLength} 400"
+			stroke-dashoffset={-segmentLength * 2}
+		/>
+	{/if}
+	{#if airQuality.main.aqi >= 4}
+		<path
+			d="
       M 12.5 125
       A 100 100 0 0 1 237.5 125"
-		fill="none"
-		stroke="#FF6600"
-		stroke-width="15"
-		stroke-dasharray="{segmentLength} 400"
-		stroke-dashoffset={-segmentLength * 3}
-	/>
-
-	<path
-		d="
+			fill="none"
+			stroke="#FF6600"
+			stroke-width="15"
+			stroke-dasharray="{segmentLength} 400"
+			stroke-dashoffset={-segmentLength * 3}
+		/>
+	{/if}
+	{#if airQuality.main.aqi >= 5}
+		<path
+			d="
       M 12.5 125
       A 100 100 0 0 1 237.5 125"
-		fill="none"
-		stroke="#FF0000"
-		stroke-width="15"
-		stroke-dasharray="{segmentLength} 400"
-		stroke-dashoffset={-segmentLength * 4}
-	/>
+			fill="none"
+			stroke="#FF0000"
+			stroke-width="15"
+			stroke-dasharray="{segmentLength} 400"
+			stroke-dashoffset={-segmentLength * 4}
+		/>
+	{/if}
 
-	<g transform="translate(125, 125) rotate(-90)">
+	<!-- <g transform="translate(125, 125) rotate(-90)">
 		<line
 			x1="0"
 			y1="0"
@@ -73,7 +79,7 @@
 			transform="rotate(160)"
 		/>
 		<circle cx="0" cy="0" r="5" fill="#000000" />
-	</g>
+	</g> -->
 
 	<text x="125" y="100" text-anchor="middle" font-size="16" fill="#000000" font-weight="bold">
 		Medium
